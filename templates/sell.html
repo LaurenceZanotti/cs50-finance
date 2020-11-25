@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Sell
+{% endblock %}
+
+{% block main %}
+    <form action="/sell" method="POST">
+        <div class="form-group">
+            <!--<input type="text" class="form-control" placeholder="Company symbol" name="symbol">-->
+            <select class="custom-select form-control" name="symbol" id="select-symbol">
+                    <option value="null" selected="selected">Select an option</option>
+                {% for symbol in symbols %}
+                    <option>{{ symbol["symbol"] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="number" class="form-control" placeholder="Shares" name="shares" autofocus>
+        </div>
+        <button type="submit" class="btn btn-primary">Sell</button>
+    </form>
+    <script>
+        // Load select values
+        symbols = document.querySelector("#select-symbol").children
+        for (symbol of symbols) {
+            symbol.setAttribute('value', symbol.value)
+        }
+    </script>
+{% endblock %}

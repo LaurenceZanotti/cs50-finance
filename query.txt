@@ -1,0 +1,26 @@
+BEGIN TRANSACTION;
+CREATE TEMPORARY TABLE t1_backup(
+    'id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    'user_id' INTEGER NOT NULL,
+    'stock_id' INTEGER NOT NULL,
+    'sale_price' NUMERIC NOT NULL,
+    'transact' TEXT NOT NULL,
+    'date' TEXT NOT NULL,
+    FOREIGN KEY(user_id) REFERENCES users(id),
+    FOREIGN KEY(stock_id) REFERENCES user_stocks(stock_id)
+);
+INSERT INTO t1_backup SELECT id,user_id,stock_id,sale_price,transact, date FROM transactions;
+DROP TABLE transactions;
+CREATE TABLE 'transactions' (
+    'id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    'user_id' INTEGER NOT NULL,
+    'stock_id' INTEGER NOT NULL,
+    'sale_price' NUMERIC NOT NULL,
+    'transact' TEXT NOT NULL,
+    'date' TEXT NOT NULL,
+    FOREIGN KEY(user_id) REFERENCES users(id),
+    FOREIGN KEY(stock_id) REFERENCES user_stocks(stock_id)
+);
+INSERT INTO transactions SELECT id,user_id,stock_id,sale_price,transact, date FROM t1_backup;
+DROP TABLE t1_backup;
+COMMIT;

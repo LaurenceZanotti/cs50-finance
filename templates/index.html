@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    {% if not stocks %}
+        <h1 class="display-4">You don't own any stocks now. How about <a href="/buy">buying</a> some?</h1>
+    {% else %}
+    <table class="table table-striped" id="current-stocks">
+        <thead class="bg-dark text-light font-weight-bold">
+            <tr>
+                <td scope="col">Symbol</td><td scope="col">Company</td><td scope="col">Shares</td><td scope="col">Price</td><td scope="col">TOTAL</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in stocks %}
+            <tr>
+                <td>{{ stock["symbol"] }}</td>
+                <td>{{ stock["company"] }}</td>
+                <td>{{ stock["shares"] }}</td>
+                <td>{{ stock["price"]}}
+                    {% if stock["currentPrice"] > stock["price"] %}
+                        <span class="text-success">{{ stock["currentPrice"]}}</span> &#x2714;
+                    {% elif stock["currentPrice"] == stock["price"] %}
+                        <span class="text-primary">{{ stock["currentPrice"]}}</span>
+                    {% else %}
+                        <span class="text-danger">{{ stock["currentPrice"]}}</span> &#x274C;
+                    {% endif %}
+                </td>
+                <td>{{ stock["total"] }}
+                    {% if stock["currentTotal"] > stock["total"] %}
+                        <span class="text-success">{{ stock["currentTotal"] }}</span> &#x2714;
+                    {% elif stock["currentTotal"] == stock["total"] %}
+                        <span class="text-primary">{{ stock["currentTotal"] }}</span>
+                    {% else %}
+                        <span class="text-danger">{{ stock["currentTotal"] }}</span> &#x274C;
+                    {% endif %}
+
+                    </td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td><strong>CASH</strong></td><td colspan="3"></td><td>{{ cash }}</td>
+            </tr>
+            <tr>
+                <td colspan="4" class="table-light"></td><td class="table-light"><strong>$10.000,00</strong></td>
+            </tr>
+        </tbody>
+    </table>
+    {% endif %}
+{% endblock %}

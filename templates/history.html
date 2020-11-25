@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped" id="history-stocks">
+        <thead class="bg-dark text-light font-weight-bold">
+            <tr>
+                <td scope="col">Symbol</td><td scope="col">Shares</td><td scope="col">Price</td><td scope="col">Transacted</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% if not history %}
+                <tr><td colspan="4">No history! 😢</td></tr>
+            {% else %}
+                {% for item in history %}
+                    <tr>
+                        <td>{{ item["symbol"] }}</td>
+                        <td>{{ item["shares"] }}</td>
+                        {% if item["transact"] == 'b' %}
+                            <td>{{ item["sale_price"] }}    <span class="badge badge-primary badge-pill ml-2">BOUGHT</span></td>
+                        {% else %}
+                            <td>{{ item["sale_price"] }}    <span class="badge badge-success badge-pill ml-2">SOLD</span></td>
+                        {% endif %}
+                        <td>{{ item["date"] }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block main %}
+    <h1 class="mb-5">Your account</h1>
+    <div class="account-section-wrapper">
+        <div class="list-group" id="account-menu">
+            <a href="#account-details" class="list-group-item list-group-item-action active">Account details</a>
+            <a href="#change-password" class="list-group-item list-group-item-action">Change password</a>
+            <a href="#add-cash" class="list-group-item list-group-item-action">Add cash</a>
+            <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">This feature is being worked on...</a>
+            <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">This one too...</a>
+        </div>
+
+        <div class="account-section" id="account-details">
+            <table class="table table-borderless">
+                <tr>
+                    <td>Name</td><td>{{ session.username }}</td>
+                </tr>
+                <tr>
+                    <td>Password</td><td>***********</td>
+                </tr>
+                {% if transactions %}
+                <tr>
+                    <td>Transactions made</td><td>{{ transactions }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td>Transactions made</td><td>No history! 😢</td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+        <div class="account-section" id="change-password">
+            <form action="/profile" method="POST">
+                <div class="form-group">
+                    <input type="password" class="form-control" name="oldPassword" placeholder="Your password">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="newPassword" placeholder="New password">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="confirmation" placeholder="Confirm your new password">
+                </div>
+                <button class="btn btn-primary" type="submit" name="change-pw-form">Change password</button>
+            </form>
+        </div>
+        <div class="account-section" id="add-cash">
+            <h2 class="mt-5">This page is under maintenance</h2>
+        </div>
+    </div>
+
+    <script src="/static/profile.js"></script>
+{% endblock %}
