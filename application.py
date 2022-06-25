@@ -52,7 +52,7 @@ if not os.environ.get("API_KEY"):
 def index():
     """Show portfolio of stocks"""
 
-    stocks = db.execute("SELECT symbol, company, shares, price, total FROM user_stocks WHERE user_id = :user_id AND isOwned = :isOwned GROUP BY company", user_id = session["user_id"], isOwned = 1)
+    stocks = db.execute("SELECT symbol, company, shares, price, total FROM user_stocks WHERE user_id = :user_id AND isOwned = :isOwned GROUP BY user_stocks.stock_id, user_stocks.symbol", user_id = session["user_id"], isOwned = 1)
     cash = db.execute("SELECT cash FROM users WHERE id = :user_id", user_id = session["user_id"])
 
     # Format stocks
